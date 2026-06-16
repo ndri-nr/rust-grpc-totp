@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package otp;
+
+// The OTP service definition.
+service OtpService {
+  // Generates a new random TOTP secret key, provisioning URI, and Base64 QR code image.
+  rpc GenerateSecret (GenerateSecretRequest) returns (GenerateSecretResponse);
+
+  // Verifies a 6-digit TOTP code against a shared secret key.
+  rpc VerifyCode (VerifyCodeRequest) returns (VerifyCodeResponse);
+}
+
+// Request to generate a new secret
+message GenerateSecretRequest {
+  // Name of the service provider or application (e.g., "MyApp").
+  string issuer = 1;
+  // User identity / account name (e.g., "user@example.com").
+  string account_name = 2;
+}
+
+// Response containing secret and QR code configuration
+message GenerateSecretResponse {
+  // The generated shared secret key (Base32 encoded).
+  string secret = 1;
+  // Standard provisioning URI for scanning QR codes (otpauth://).
+  string provisioning_uri = 2;
+  // Base64-encoded PNG image of the QR code (data:image/png;base64,...).
+  string qr_code_base64 = 3;
+}
+
+// Request to verify a 6-digit code
+message VerifyCodeRequest {
+  // The shared secret key (Base32 encoded) corresponding to the user.
+  string secret = 1;
+  // The 6-digit verification code entered by the user.
+  string code = 2;
+}
+
+// Response indicating validation status
+message VerifyCodeResponse {
+  // True if the code matches and is within the allowed skew window.
+  bool is_valid = 1;
+}

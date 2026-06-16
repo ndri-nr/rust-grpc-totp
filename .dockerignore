@@ -1,0 +1,25 @@
+# Rust build artifacts
+target/
+
+# Local configuration / secrets
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# Docker configuration files
+Dockerfile
+.dockerignore
+
+# Documentation & IDE files
+README.md
+*.md
+.idea/
+.vscode/
+.DS_Store
+
+# Temporary files
+*.log
+tmp/
