@@ -1,4 +1,4 @@
-# Rust gRPC OTP Service for 2FA / MFA
+# Rust gRPC TOTP Service for 2FA / MFA
 
 A high-performance, stateless, production-ready Rust gRPC service designed to generate and verify Time-Based One-Time Passwords (TOTP) for Two-Factor Authentication (2FA). This service generates standard configurations fully compatible with all popular authenticator applications, such as **Google Authenticator**, **Authy**, **Microsoft Authenticator**, **1Password**, and others implementing the TOTP standard (RFC 6238).
 
@@ -255,7 +255,7 @@ grpcurl -plaintext -proto proto/otp.proto 127.0.0.1:50051 otp.OtpService/Generat
 
 ### 2. Kubernetes
 
-To run the gRPC OTP service in a Kubernetes cluster, we define a **Deployment** (which manages the container replica) and a **Service** (which exposes the deployment).
+To run the gRPC TOTP service in a Kubernetes cluster, we define a **Deployment** (which manages the container replica) and a **Service** (which exposes the deployment).
 
 Here are the standard manifest files.
 
