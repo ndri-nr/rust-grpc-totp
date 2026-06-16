@@ -259,9 +259,9 @@ To run the gRPC TOTP service in a Kubernetes cluster, we define a **Deployment**
 
 Here are the standard manifest files.
 
-#### Deployment & Service Manifest (`k8s.yaml`)
+#### Deployment & Service Manifest (`k8s/k8s.yaml`)
 
-You can create a file named `k8s.yaml` with the following content:
+You can create a file named `k8s/k8s.yaml` with the following content:
 
 ```yaml
 apiVersion: apps/v1
@@ -332,12 +332,18 @@ spec:
 #### Deploy to the Cluster
 Apply the manifests to your Kubernetes cluster:
 ```bash
-kubectl apply -f k8s.yaml
+kubectl apply -f k8s/k8s.yaml
 ```
 
 Check the status of the pods:
 ```bash
 kubectl get pods -l app=totp-service
+```
+
+#### Delete / Tear Down the Cluster Resources
+To clean up and remove the deployment and service from the cluster:
+```bash
+kubectl delete -f k8s/k8s.yaml
 ```
 
 ---

@@ -835,22 +835,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 
 [[package]]
-name = "otp"
-version = "0.1.0"
-dependencies = [
- "base32",
- "dotenvy",
- "prost",
- "tokio",
- "tonic",
- "tonic-build",
- "tonic-reflection",
- "totp-rs",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "parking_lot"
 version = "0.12.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1489,6 +1473,22 @@ dependencies = [
  "tokio",
  "tokio-stream",
  "tonic",
+]
+
+[[package]]
+name = "totp"
+version = "0.1.0"
+dependencies = [
+ "base32",
+ "dotenvy",
+ "prost",
+ "tokio",
+ "tonic",
+ "tonic-build",
+ "tonic-reflection",
+ "totp-rs",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
