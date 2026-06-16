@@ -51,7 +51,7 @@ Following clean architecture principles, the project is structured as follows:
 ## Prerequisites
 
 To build and run the service, you need:
-- **Rust (Stable)**: 1.70+ recommended.
+- **Rust (Stable)**: 1.90+ recommended.
 - **Protocol Buffers Compiler (`protoc`)**: Installed locally for Tonic to compile `.proto` files.
   - **macOS**: `brew install protobuf`
   - **Ubuntu/Debian**: `sudo apt install -y protobuf-compiler`
