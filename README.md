@@ -7,7 +7,7 @@ A high-performance, stateless, production-ready Rust gRPC service designed to ge
 ## Key Features
 
 - **gRPC Transport**: Built on [Tonic](https://github.com/hyperium/tonic), an extremely fast and safe gRPC framework for Rust.
-- **RFC-6238 Compliant**: Uses standard SHA1 hashing, 6-digit codes, 30-second steps, and clock drift/skew tolerance of +/- 30 seconds.
+- **RFC-6238 Compliant**: Uses standard SHA1 hashing, 6-digit codes, 30-second steps, and strict drift/skew tolerance of 0 second.
 - **Stateless Architecture**: The server is purely utility-based; your main database stores the Base32 secrets.
 - **Easy Integration**: Returns a base64-encoded QR code PNG and an `otpauth://` URI out-of-the-box for seamless frontend integration.
 
