@@ -4,7 +4,7 @@
 FROM rust:1-slim-bookworm AS builder
 
 # Install protobuf compiler (required by tonic-build)
-RUN apt-get update && apt-get install -y protobuf-compiler && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends protobuf-compiler && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -29,11 +29,6 @@ RUN touch src/main.rs && cargo build --release
 # Stage 2: Minimal runtime image
 # ============================================================
 FROM debian:bookworm-slim AS runtime
-
-# Install minimal runtime dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user for security
 RUN groupadd -r totp && useradd -r -g totp -s /sbin/nologin totp
