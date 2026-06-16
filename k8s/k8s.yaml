@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: totp-service
+  labels:
+    app: totp-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: totp-service
+  template:
+    metadata:
+      labels:
+        app: totp-service
+    spec:
+      containers:
+        - name: totp-service
+          image: totp-service:latest # Replace with your registry image path, e.g., myregistry.com/totp-service:latest
+          imagePullPolicy: IfNotPresent # Or Always in production
+          ports:
+            - containerPort: 50051
+              name: grpc
+          env:
+            - name: OTP_HOST
+              value: "0.0.0.0"
+            - name: OTP_PORT
+              value: "50051"
+            - name: RUST_LOG
+              value: "info"
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+          # Since the binary supports dynamic reflection and starts quickly, we can run basic probes:
+          readinessProbe:
+            exec:
+              command: ["/app/totp", "--help"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["/app/totp", "--help"]
+            initialDelaySeconds: 10
+            periodSeconds: 15
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: totp-service
+  labels:
+    app: totp-service
+spec:
+  ports:
+    - port: 50051
+      targetPort: 50051
+      name: grpc
+  selector:
+    app: totp-service
+  type: ClusterIP

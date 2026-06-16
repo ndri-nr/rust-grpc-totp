@@ -36,17 +36,17 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user for security
-RUN groupadd -r otp && useradd -r -g otp -s /sbin/nologin otp
+RUN groupadd -r totp && useradd -r -g totp -s /sbin/nologin totp
 
 WORKDIR /app
 
 # Copy the compiled binary from the builder stage
-COPY --from=builder /app/target/release/otp /app/otp
+COPY --from=builder /app/target/release/totp /app/totp
 
 # Set ownership to non-root user
-RUN chown -R otp:otp /app
+RUN chown -R totp:totp /app
 
-USER otp
+USER totp
 
 # Default environment variables for container/Kubernetes usage
 # Bind to 0.0.0.0 so the service is reachable from outside the container
@@ -60,4 +60,4 @@ EXPOSE 50051
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
     CMD ["/bin/sh", "-c", "echo 'healthy'"]
 
-ENTRYPOINT ["/app/otp"]
+ENTRYPOINT ["/app/totp"]

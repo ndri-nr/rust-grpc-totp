@@ -220,16 +220,16 @@ This service is fully containerized and ready to be deployed to Docker environme
 #### Build the Docker Image
 To build the optimized release Docker image (using the multi-stage `Dockerfile` which keeps the final image lightweight):
 ```bash
-docker build -t otp-service:latest .
+docker build -t totp-service:latest .
 ```
 
 #### Run the Container Locally
 Run the container and map the gRPC port `50051`:
 ```bash
 docker run -d \
-  --name otp-service \
+  --name totp-service \
   -p 50051:50051 \
-  otp-service:latest
+  totp-service:latest
 ```
 
 *Note: Inside the Docker container, the service defaults to `OTP_HOST=0.0.0.0` and `OTP_PORT=50051` so it is reachable externally.*
@@ -238,11 +238,11 @@ docker run -d \
 If you want to run the container on a custom port or change logging verbosity:
 ```bash
 docker run -d \
-  --name otp-service \
+  --name totp-service \
   -p 9000:9000 \
   -e OTP_PORT=9000 \
   -e RUST_LOG=debug \
-  otp-service:latest
+  totp-service:latest
 ```
 
 #### Connecting to the Docker Container
@@ -267,22 +267,22 @@ You can create a file named `k8s.yaml` with the following content:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: otp-service
+  name: totp-service
   labels:
-    app: otp-service
+    app: totp-service
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: otp-service
+      app: totp-service
   template:
     metadata:
       labels:
-        app: otp-service
+        app: totp-service
     spec:
       containers:
-        - name: otp-service
-          image: otp-service:latest # Replace with your registry image path, e.g., myregistry.com/otp-service:latest
+        - name: totp-service
+          image: totp-service:latest # Replace with your registry image path, e.g., myregistry.com/totp-service:latest
           imagePullPolicy: IfNotPresent # Or Always in production
           ports:
             - containerPort: 50051
@@ -316,16 +316,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: otp-service
+  name: totp-service
   labels:
-    app: otp-service
+    app: totp-service
 spec:
   ports:
     - port: 50051
       targetPort: 50051
       name: grpc
   selector:
-    app: otp-service
+    app: totp-service
   type: ClusterIP
 ```
 
@@ -337,7 +337,7 @@ kubectl apply -f k8s.yaml
 
 Check the status of the pods:
 ```bash
-kubectl get pods -l app=otp-service
+kubectl get pods -l app=totp-service
 ```
 
 ---
@@ -348,12 +348,12 @@ Depending on where you are calling the service from, here is how you connect:
 
 #### A. Inside the Kubernetes Cluster (Service-to-Service communication)
 Other microservices running in the same cluster can connect to this service using its Kubernetes DNS name:
-- **Connection String**: `otp-service.default.svc.cluster.local:50051` (assuming deployed in the `default` namespace)
-- **Short Name**: `otp-service:50051` (if the calling service is in the same namespace)
+- **Connection String**: `totp-service.default.svc.cluster.local:50051` (assuming deployed in the `default` namespace)
+- **Short Name**: `totp-service:50051` (if the calling service is in the same namespace)
 
 For example, from another container inside the cluster:
 ```bash
-grpcurl -plaintext -proto proto/otp.proto otp-service:50051 list
+grpcurl -plaintext -proto proto/otp.proto totp-service:50051 list
 ```
 
 #### B. Outside the Kubernetes Cluster (For Testing / Local Development)
@@ -361,7 +361,7 @@ If the Service type is `ClusterIP`, it is not directly reachable from your local
 
 1. Start port forwarding:
    ```bash
-   kubectl port-forward service/otp-service 50051:50051
+   kubectl port-forward service/totp-service 50051:50051
    ```
 2. In a separate terminal, access the service on `localhost:50051`:
    ```bash
