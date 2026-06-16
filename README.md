@@ -177,18 +177,18 @@ sequenceDiagram
     participant User
     participant Frontend
     participant Backend
-    participant OtpService
+    participant Totp Service
     User->>Frontend: Click "Enable 2FA"
     Frontend->>Backend: Request 2FA Setup
-    Backend->>OtpService: GenerateSecret(issuer, email)
-    OtpService-->>Backend: Return base32 secret & base64 QR
+    Backend->>Totp Service: GenerateSecret(issuer, email)
+    Totp Service-->>Backend: Return base32 secret & base64 QR
     Backend->>Backend: Save secret in database (marked as unverified)
     Backend-->>Frontend: Send base64 QR & secret
     Frontend->>User: Display QR Code & manual entry secret
     User->>Frontend: Enter 6-digit code from Authenticator app
     Frontend->>Backend: Submit 6-digit code
-    Backend->>OtpService: VerifyCode(secret, code)
-    OtpService-->>Backend: Return is_valid: true
+    Backend->>Totp Service: VerifyCode(secret, code)
+    Totp Service-->>Backend: Return is_valid: true
     Backend->>Backend: Mark 2FA as fully active in database
     Backend-->>Frontend: Confirm 2FA enabled
 ```
@@ -199,12 +199,12 @@ sequenceDiagram
     participant User
     participant Frontend
     participant Backend
-    participant OtpService
+    participant Totp Service
     User->>Frontend: Enter username/password & 6-digit code
     Frontend->>Backend: Authenticate credentials
     Backend->>Backend: Fetch saved secret from DB
-    Backend->>OtpService: VerifyCode(secret, code)
-    OtpService-->>Backend: Return is_valid: true
+    Backend->>Totp Service: VerifyCode(secret, code)
+    Totp Service-->>Backend: Return is_valid: true
     Backend-->>Frontend: Return Session Token / JWT
     Frontend->>User: Login Success
 ```
