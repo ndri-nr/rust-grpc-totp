@@ -77,7 +77,7 @@ cargo run
 
 By default, the server listens on `127.0.0.1:50051` (IPv4 localhost). You can configure this using environment variables. Note that Rust expects a numeric IP address (such as `127.0.0.1` or `::1`); DNS hostnames like `localhost` are not supported directly by `SocketAddr` parsing:
 ```bash
-OTP_HOST="127.0.0.1" OTP_PORT=9000 cargo run
+HOST="127.0.0.1" PORT=9000 cargo run
 ```
 
 ### 3. Run Automated Tests
@@ -240,7 +240,7 @@ If you want to run the container on a custom port or change logging verbosity:
 docker run -d \
   --name totp-service \
   -p 9000:9000 \
-  -e OTP_PORT=9000 \
+  -e PORT=9000 \
   -e RUST_LOG=debug \
   totp-service:latest
 ```
@@ -288,9 +288,9 @@ spec:
             - containerPort: 50051
               name: grpc
           env:
-            - name: OTP_HOST
+            - name: HOST
               value: "0.0.0.0"
-            - name: OTP_PORT
+            - name: PORT
               value: "50051"
             - name: RUST_LOG
               value: "info"
@@ -304,12 +304,12 @@ spec:
           # Since the binary supports dynamic reflection and starts quickly, we can run basic probes:
           readinessProbe:
             exec:
-              command: ["/app/otp", "--help"]
+              command: ["/app/totp", "--help"]
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             exec:
-              command: ["/app/otp", "--help"]
+              command: ["/app/totp", "--help"]
             initialDelaySeconds: 10
             periodSeconds: 15
 ---

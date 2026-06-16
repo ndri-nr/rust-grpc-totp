@@ -22,9 +22,9 @@ spec:
             - containerPort: 50051
               name: grpc
           env:
-            - name: OTP_HOST
+            - name: HOST
               value: "0.0.0.0"
-            - name: OTP_PORT
+            - name: PORT
               value: "50051"
             - name: RUST_LOG
               value: "info"

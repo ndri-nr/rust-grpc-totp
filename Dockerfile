@@ -45,8 +45,8 @@ USER totp
 
 # Default environment variables for container/Kubernetes usage
 # Bind to 0.0.0.0 so the service is reachable from outside the container
-ENV OTP_HOST=0.0.0.0
-ENV OTP_PORT=50051
+ENV HOST=0.0.0.0
+ENV PORT=50051
 
 # Expose the gRPC port
 EXPOSE 50051
