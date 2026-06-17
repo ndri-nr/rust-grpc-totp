@@ -41,7 +41,7 @@ Following clean architecture principles, the project is structured as follows:
 
 ### Module Roles
 - **`proto/otp.proto`**: Defines the gRPC service endpoints (`GenerateSecret` and `VerifyCode`) and request/response messages.
-- **`src/config`**: Reads configuration (port, host) from environment variables `OTP_PORT` and `OTP_HOST`.
+- **`src/config`**: Reads configuration (port, host) from environment variables `PORT` and `HOST`.
 - **`src/domain`**: Holds pure types and errors. Maps standard application errors directly to gRPC statuses.
 - **`src/handlers`**: Executes raw TOTP functions (generating random bytes, formatting URIs, checking current time codes).
 - **`src/services`**: Maps gRPC payloads to domain calls, handles request input validation, and translates domain errors to gRPC status codes.
@@ -232,7 +232,7 @@ docker run -d \
   totp-service:latest
 ```
 
-*Note: Inside the Docker container, the service defaults to `OTP_HOST=0.0.0.0` and `OTP_PORT=50051` so it is reachable externally.*
+*Note: Inside the Docker container, the service defaults to `HOST=0.0.0.0` and `PORT=50051` so it is reachable externally.*
 
 #### Overriding Config via Environment Variables
 If you want to run the container on a custom port or change logging verbosity:
